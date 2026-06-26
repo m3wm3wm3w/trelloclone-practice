@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchBoards, createBoard, deleteBoard } from '../redux/slices/boardsSlice';
 import { signOut } from '../redux/slices/authSlice';
+import ConfirmModal from '../components/ConfirmModal';
 import '../styles/Boards.scss';
 
 function Boards() {
   const [isCreating, setIsCreating] = useState(false);
   const [boardName, setBoardName] = useState('');
+  const [boardToDelete, setBoardToDelete] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector(state => state.auth);
@@ -26,9 +28,9 @@ function Boards() {
     }
   };
 
-  const handleDeleteBoard = async (boardId) => {
-    if (window.confirm('Are you sure you want to delete this board?')) {
-      await dispatch(deleteBoard(boardId));
+  const handleDeleteBoard = async () => {
+    if (boardToDelete) {
+      await dispatch(deleteBoard(boardToDelete._id));
     }
   };
 
@@ -41,27 +43,27 @@ function Boards() {
       <header className="boards-header">
         <h1>Trello Clone</h1>
         <div className="user-info">
-          <span>Welcome, {user?.firstName}!</span>
-          <button onClick={handleSignOut} className="btn-secondary">Sign Out</button>
+          <span>Привет, {user?.firstName}!</span>
+          <button onClick={handleSignOut} className="btn-secondary">Выйти</button>
         </div>
       </header>
 
       <div className="boards-content">
         <section className="boards-section">
-          <h2>My Boards</h2>
+          <h2>Мои доски</h2>
           <div className="boards-grid">
             {ownedBoards.map(board => (
               <div key={board._id} className="board-card">
                 <div onClick={() => navigate(`/boards/${board._id}`)} className="board-card-content">
                   <h3>{board.name}</h3>
-                  <p className="board-owner">Owner: You</p>
-                  <p className="board-members">{board.members.length} member(s)</p>
+                  <p className="board-owner">Владелец: Вы</p>
+                  <p className="board-members">{board.members.length} участник(ов)</p>
                 </div>
                 <button 
-                  onClick={(e) => { e.stopPropagation(); handleDeleteBoard(board._id); }}
+                  onClick={(e) => { e.stopPropagation(); setBoardToDelete(board); }}
                   className="btn-delete"
                 >
-                  Delete
+                  Удалить
                 </button>
               </div>
             ))}
@@ -71,15 +73,15 @@ function Boards() {
                 <form onSubmit={handleCreateBoard}>
                   <input
                     type="text"
-                    placeholder="Board name..."
+                    placeholder="Название доски..."
                     value={boardName}
                     onChange={(e) => setBoardName(e.target.value)}
                     autoFocus
                   />
                   <div className="form-actions">
-                    <button type="submit" className="btn-primary">Create</button>
+                    <button type="submit" className="btn-primary">Создать</button>
                     <button type="button" onClick={() => setIsCreating(false)} className="btn-secondary">
-                      Cancel
+                      Отмена
                     </button>
                   </div>
                 </form>
@@ -87,7 +89,7 @@ function Boards() {
             ) : (
               <div className="board-card board-create" onClick={() => setIsCreating(true)}>
                 <span className="plus-icon">+</span>
-                <span>Create new board</span>
+                <span>Создать новую доску</span>
               </div>
             )}
           </div>
@@ -95,21 +97,32 @@ function Boards() {
 
         {memberBoards.length > 0 && (
           <section className="boards-section">
-            <h2>Shared with Me</h2>
+            <h2>Доступные мне</h2>
             <div className="boards-grid">
               {memberBoards.map(board => (
                 <div key={board._id} className="board-card" onClick={() => navigate(`/boards/${board._id}`)}>
                   <h3>{board.name}</h3>
-                  <p className="board-owner">Owner: {board.owner.firstName} {board.owner.lastName}</p>
-                  <p className="board-members">{board.members.length} member(s)</p>
+                  <p className="board-owner">Владелец: {board.owner.firstName} {board.owner.lastName}</p>
+                  <p className="board-members">{board.members.length} участник(ов)</p>
                 </div>
               ))}
             </div>
           </section>
         )}
 
-        {loading && <div className="loading">Loading boards...</div>}
+        {loading && <div className="loading">Загрузка досок...</div>}
       </div>
+
+      <ConfirmModal
+        isOpen={!!boardToDelete}
+        onClose={() => setBoardToDelete(null)}
+        onConfirm={handleDeleteBoard}
+        title="Удалить доску?"
+        message={boardToDelete ? `Вы уверены, что хотите удалить доску "${boardToDelete.name}"? Все списки и карточки будут удалены. Это действие нельзя отменить.` : ''}
+        confirmText="Удалить доску"
+        cancelText="Отмена"
+        danger={true}
+      />
     </div>
   );
 }
