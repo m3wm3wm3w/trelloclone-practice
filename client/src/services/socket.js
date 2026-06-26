@@ -13,8 +13,11 @@ import {
 let socket = null;
 
 export const connectSocket = (boardId, dispatch) => {
+  console.log(`🔌 Connecting socket for board: ${boardId}`);
+  
   if (!socket) {
     socket = io(process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000');
+    console.log('✅ Socket.io instance created');
   }
 
   // Удаляем старые слушатели перед добавлением новых
@@ -28,36 +31,45 @@ export const connectSocket = (boardId, dispatch) => {
   socket.off('card:deleted');
 
   socket.emit('join:board', boardId);
+  console.log(`📤 Emitted join:board for ${boardId}`);
 
   socket.on('user:joined', ({ socketId }) => {
+    console.log('👤 User joined:', socketId);
     dispatch(addConnectedUser(socketId));
   });
 
   socket.on('user:left', ({ socketId }) => {
+    console.log('👤 User left:', socketId);
     dispatch(removeConnectedUser(socketId));
   });
 
   socket.on('list:created', (list) => {
+    console.log('📋 List created:', list);
     dispatch(socketListCreated(list));
   });
 
   socket.on('list:deleted', ({ listId }) => {
+    console.log('🗑️  List deleted:', listId);
     dispatch(socketListDeleted(listId));
   });
 
   socket.on('card:created', (card) => {
+    console.log('🃏 Card created:', card);
     dispatch(socketCardCreated(card));
   });
 
   socket.on('card:updated', (card) => {
+    console.log('✏️  Card updated:', card);
     dispatch(socketCardUpdated(card));
   });
 
   socket.on('card:moved', (card) => {
+    console.log('↔️  Card moved:', card);
     dispatch(socketCardMoved(card));
   });
 
   socket.on('card:deleted', ({ cardId }) => {
+    console.log('🗑️  Card deleted:', cardId);
     dispatch(socketCardDeleted(cardId));
   });
 
