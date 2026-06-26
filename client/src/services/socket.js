@@ -16,7 +16,12 @@ export const connectSocket = (boardId, dispatch) => {
   console.log(`🔌 Connecting socket for board: ${boardId}`);
   
   if (!socket) {
-    socket = io(process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000');
+    socket = io(process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000', {
+      transports: ['websocket', 'polling'],
+      reconnection: true,
+      reconnectionDelay: 1000,
+      reconnectionAttempts: 10
+    });
     console.log('✅ Socket.io instance created');
   }
 
