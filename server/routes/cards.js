@@ -41,7 +41,9 @@ router.post('/', auth, async (req, res) => {
 
     // Emit socket event
     const io = req.app.get('io');
-    io.to(board._id.toString()).emit('card:created', card);
+    const boardIdStr = board._id.toString();
+    console.log(`📡 Emitting card:created to room ${boardIdStr}`);
+    io.to(boardIdStr).emit('card:created', card.toObject());
 
     res.status(201).json(card);
   } catch (error) {
@@ -74,7 +76,9 @@ router.put('/:id', auth, async (req, res) => {
 
     // Emit socket event
     const io = req.app.get('io');
-    io.to(board._id.toString()).emit('card:updated', card);
+    const boardIdStr = board._id.toString();
+    console.log(`📡 Emitting card:updated to room ${boardIdStr}`);
+    io.to(boardIdStr).emit('card:updated', card.toObject());
 
     res.json(card);
   } catch (error) {
@@ -108,7 +112,9 @@ router.put('/:id/move', auth, async (req, res) => {
 
     // Emit socket event
     const io = req.app.get('io');
-    io.to(board._id.toString()).emit('card:moved', card);
+    const boardIdStr = board._id.toString();
+    console.log(`📡 Emitting card:moved to room ${boardIdStr}`);
+    io.to(boardIdStr).emit('card:moved', card.toObject());
 
     res.json(card);
   } catch (error) {
@@ -138,7 +144,9 @@ router.delete('/:id', auth, async (req, res) => {
 
     // Emit socket event
     const io = req.app.get('io');
-    io.to(board._id.toString()).emit('card:deleted', { cardId: card._id });
+    const boardIdStr = board._id.toString();
+    console.log(`📡 Emitting card:deleted to room ${boardIdStr}`);
+    io.to(boardIdStr).emit('card:deleted', { cardId: card._id.toString() });
 
     res.json({ message: 'Card deleted' });
   } catch (error) {

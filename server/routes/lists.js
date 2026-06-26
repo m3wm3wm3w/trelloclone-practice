@@ -39,7 +39,9 @@ router.post('/', auth, async (req, res) => {
 
     // Emit socket event
     const io = req.app.get('io');
-    io.to(boardId).emit('list:created', list);
+    const boardIdStr = boardId.toString();
+    console.log(`📡 Emitting list:created to room ${boardIdStr}`);
+    io.to(boardIdStr).emit('list:created', list.toObject());
 
     res.status(201).json(list);
   } catch (error) {
@@ -101,7 +103,9 @@ router.delete('/:id', auth, async (req, res) => {
 
     // Emit socket event
     const io = req.app.get('io');
-    io.to(board._id.toString()).emit('list:deleted', { listId: list._id });
+    const boardIdStr = board._id.toString();
+    console.log(`📡 Emitting list:deleted to room ${boardIdStr}`);
+    io.to(boardIdStr).emit('list:deleted', { listId: list._id.toString() });
 
     res.json({ message: 'List deleted' });
   } catch (error) {
