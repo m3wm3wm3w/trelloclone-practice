@@ -86,7 +86,7 @@ npm run dev
 
 ## Code Quality
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/placeholder/maintainability)](https://codeclimate.com/github/placeholder)
+[![Maintainability](https://qlty.sh/gh/m3wm3wm3w/projects/trelloclone-practice/maintainability.svg)](https://qlty.sh/gh/m3wm3wm3w/projects/trelloclone-practice)
 
 ## Основные функции
 
