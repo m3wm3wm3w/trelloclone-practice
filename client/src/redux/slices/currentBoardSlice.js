@@ -25,6 +25,18 @@ export const createList = createAsyncThunk(
   }
 );
 
+export const deleteList = createAsyncThunk(
+  'currentBoard/deleteList',
+  async (listId, { rejectWithValue }) => {
+    try {
+      await api.delete(`/lists/${listId}`);
+      return listId;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.error || 'Failed to delete list');
+    }
+  }
+);
+
 export const createCard = createAsyncThunk(
   'currentBoard/createCard',
   async ({ listId, name }, { rejectWithValue }) => {
@@ -45,6 +57,18 @@ export const updateCard = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to update card');
+    }
+  }
+);
+
+export const moveCard = createAsyncThunk(
+  'currentBoard/moveCard',
+  async ({ cardId, listId, position }, { rejectWithValue }) => {
+    try {
+      const response = await api.put(`/cards/${cardId}/move`, { listId, position });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.error || 'Failed to move card');
     }
   }
 );
@@ -87,6 +111,11 @@ const currentBoardSlice = createSlice({
         state.lists.push(action.payload);
       }
     },
+    socketListDeleted: (state, action) => {
+      state.lists = state.lists.filter(list => list._id !== action.payload);
+      // Также удаляем все карточки из этого списка
+      state.cards = state.cards.filter(card => card.list !== action.payload);
+    },
     socketCardCreated: (state, action) => {
       // Проверяем, нет ли уже такой карточки
       const exists = state.cards.some(card => card._id === action.payload._id);
@@ -95,6 +124,12 @@ const currentBoardSlice = createSlice({
       }
     },
     socketCardUpdated: (state, action) => {
+      const index = state.cards.findIndex(c => c._id === action.payload._id);
+      if (index !== -1) {
+        state.cards[index] = action.payload;
+      }
+    },
+    socketCardMoved: (state, action) => {
       const index = state.cards.findIndex(c => c._id === action.payload._id);
       if (index !== -1) {
         state.cards[index] = action.payload;
@@ -133,6 +168,11 @@ const currentBoardSlice = createSlice({
           state.lists.push(action.payload);
         }
       })
+      .addCase(deleteList.fulfilled, (state, action) => {
+        state.lists = state.lists.filter(list => list._id !== action.payload);
+        // Также удаляем все карточки из этого списка
+        state.cards = state.cards.filter(card => card.list !== action.payload);
+      })
       .addCase(createCard.fulfilled, (state, action) => {
         // Проверяем, нет ли уже такой карточки
         const exists = state.cards.some(card => card._id === action.payload._id);
@@ -141,6 +181,12 @@ const currentBoardSlice = createSlice({
         }
       })
       .addCase(updateCard.fulfilled, (state, action) => {
+        const index = state.cards.findIndex(c => c._id === action.payload._id);
+        if (index !== -1) {
+          state.cards[index] = action.payload;
+        }
+      })
+      .addCase(moveCard.fulfilled, (state, action) => {
         const index = state.cards.findIndex(c => c._id === action.payload._id);
         if (index !== -1) {
           state.cards[index] = action.payload;
@@ -156,8 +202,10 @@ export const {
   addConnectedUser,
   removeConnectedUser,
   socketListCreated,
+  socketListDeleted,
   socketCardCreated,
   socketCardUpdated,
+  socketCardMoved,
   socketCardDeleted,
   clearBoard
 } = currentBoardSlice.actions;

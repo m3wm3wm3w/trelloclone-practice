@@ -3,8 +3,10 @@ import {
   addConnectedUser, 
   removeConnectedUser,
   socketListCreated,
+  socketListDeleted,
   socketCardCreated,
   socketCardUpdated,
+  socketCardMoved,
   socketCardDeleted
 } from '../redux/slices/currentBoardSlice';
 
@@ -19,8 +21,10 @@ export const connectSocket = (boardId, dispatch) => {
   socket.off('user:joined');
   socket.off('user:left');
   socket.off('list:created');
+  socket.off('list:deleted');
   socket.off('card:created');
   socket.off('card:updated');
+  socket.off('card:moved');
   socket.off('card:deleted');
 
   socket.emit('join:board', boardId);
@@ -37,12 +41,20 @@ export const connectSocket = (boardId, dispatch) => {
     dispatch(socketListCreated(list));
   });
 
+  socket.on('list:deleted', ({ listId }) => {
+    dispatch(socketListDeleted(listId));
+  });
+
   socket.on('card:created', (card) => {
     dispatch(socketCardCreated(card));
   });
 
   socket.on('card:updated', (card) => {
     dispatch(socketCardUpdated(card));
+  });
+
+  socket.on('card:moved', (card) => {
+    dispatch(socketCardMoved(card));
   });
 
   socket.on('card:deleted', ({ cardId }) => {

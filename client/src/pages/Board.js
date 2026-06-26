@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBoard, createList, clearBoard } from '../redux/slices/currentBoardSlice';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { fetchBoard, createList, clearBoard, moveCard } from '../redux/slices/currentBoardSlice';
 import { connectSocket, disconnectSocket } from '../services/socket';
 import List from '../components/List';
 import ConnectedUsers from '../components/ConnectedUsers';
@@ -42,7 +43,26 @@ function Board() {
 
   const handleAddMember = async (boardId, email) => {
     await api.post(`/boards/${boardId}/members`, { email });
-    dispatch(fetchBoard(id)); // Обновляем доску
+    dispatch(fetchBoard(id));
+  };
+
+  const onDragEnd = (result) => {
+    const { destination, source, draggableId } = result;
+
+    // Если нет destination или карточка не переместилась
+    if (!destination || (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    )) {
+      return;
+    }
+
+    // Перемещаем карточку
+    dispatch(moveCard({
+      cardId: draggableId,
+      listId: destination.droppableId,
+      position: destination.index
+    }));
   };
 
   if (loading) {
@@ -69,39 +89,50 @@ function Board() {
       </header>
 
       <div className="board-content">
-        <div className="lists-container">
-          {lists.map(list => (
-            <List 
-              key={list._id} 
-              list={list} 
-              cards={cards.filter(card => card.list === list._id)} 
-            />
-          ))}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className="lists-container">
+            {lists.map(list => (
+              <Droppable key={list._id} droppableId={list._id}>
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    <List
+                      list={list}
+                      cards={cards.filter(card => card.list === list._id)}
+                    />
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            ))}
 
-          {isCreatingList ? (
-            <div className="list list-create-form">
-              <form onSubmit={handleCreateList}>
-                <input
-                  type="text"
-                  placeholder="Введите название списка..."
-                  value={listName}
-                  onChange={(e) => setListName(e.target.value)}
-                  autoFocus
-                />
-                <div className="form-actions">
-                  <button type="submit" className="btn-primary">Добавить список</button>
-                  <button type="button" onClick={() => setIsCreatingList(false)} className="btn-secondary">
-                    Отмена
-                  </button>
-                </div>
-              </form>
-            </div>
-          ) : (
-            <div className="list list-create" onClick={() => setIsCreatingList(true)}>
-              <span>+ Добавить список</span>
-            </div>
-          )}
-        </div>
+            {isCreatingList ? (
+              <div className="list list-create-form">
+                <form onSubmit={handleCreateList}>
+                  <input
+                    type="text"
+                    placeholder="Введите название списка..."
+                    value={listName}
+                    onChange={(e) => setListName(e.target.value)}
+                    autoFocus
+                  />
+                  <div className="form-actions">
+                    <button type="submit" className="btn-primary">Добавить список</button>
+                    <button type="button" onClick={() => setIsCreatingList(false)} className="btn-secondary">
+                      Отмена
+                    </button>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              <div className="list list-create" onClick={() => setIsCreatingList(true)}>
+                <span>+ Добавить список</span>
+              </div>
+            )}
+          </div>
+        </DragDropContext>
       </div>
 
       {showAddMember && (
