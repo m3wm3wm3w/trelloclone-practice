@@ -64,6 +64,20 @@ npm run dev
 
 Сервер запустится на `http://localhost:5000`, клиент на `http://localhost:3000`
 
+## Тестовые данные
+
+Для быстрого тестирования используйте:
+- **Email:** test@example.com
+- **Password:** test123
+
+Полная информация в [TEST_CREDENTIALS.md](TEST_CREDENTIALS.md)
+
+## Документация
+
+- 📖 [Архитектура проекта](ARCHITECTURE.md)
+- 📡 [API Документация](API_DOCUMENTATION.md)
+- 🚀 [Руководство по деплою](DEPLOYMENT.md)
+
 ## Деплой
 
 🔗 [Ссылка на работающее приложение](#) _(будет добавлена после деплоя)_
@@ -71,6 +85,16 @@ npm run dev
 ## Code Quality
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/placeholder/maintainability)](https://codeclimate.com/github/placeholder)
+
+## Основные функции
+
+- ✅ Регистрация и аутентификация пользователей
+- ✅ Создание и управление досками
+- ✅ Добавление участников на доски
+- ✅ Создание списков на досках
+- ✅ Создание и редактирование карточек
+- ✅ Real-time обновления через WebSocket
+- ✅ Отображение подключенных пользователей
 
 ## Лицензия
 
