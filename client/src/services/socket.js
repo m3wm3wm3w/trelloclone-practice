@@ -33,6 +33,11 @@ export const connectSocket = (boardId, dispatch) => {
   socket.emit('join:board', boardId);
   console.log(`📤 Emitted join:board for ${boardId}`);
 
+  // Подтверждение присоединения к комнате
+  socket.once('board:joined', ({ boardId: joinedBoardId }) => {
+    console.log(`✅ Successfully joined board room: ${joinedBoardId}`);
+  });
+
   socket.on('user:joined', ({ socketId }) => {
     console.log('👤 User joined:', socketId);
     dispatch(addConnectedUser(socketId));

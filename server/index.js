@@ -39,8 +39,13 @@ io.on('connection', (socket) => {
   // Join board room
   socket.on('join:board', (boardId) => {
     socket.join(boardId);
-    socket.to(boardId).emit('user:joined', { socketId: socket.id });
     console.log(`📋 User ${socket.id} joined board ${boardId}`);
+    
+    // Подтверждаем клиенту что он присоединился
+    socket.emit('board:joined', { boardId });
+    
+    // Уведомляем других пользователей в комнате
+    socket.to(boardId).emit('user:joined', { socketId: socket.id });
   });
 
   // Leave board room
