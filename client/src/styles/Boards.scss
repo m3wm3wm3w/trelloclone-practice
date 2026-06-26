@@ -6,15 +6,23 @@
 .boards-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 20px 40px;
+  padding: 24px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   h1 {
-    font-size: 28px;
-    font-weight: 600;
+    font-size: 32px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &::before {
+      content: '📋';
+      font-size: 36px;
+    }
   }
 
   .user-info {
@@ -24,6 +32,19 @@
 
     span {
       font-size: 16px;
+      font-weight: 500;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+      transition: all 0.2s;
+
+      &:hover {
+        background: white;
+        color: #667eea;
+      }
     }
   }
 }
@@ -54,38 +75,68 @@
   background: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+    &::before {
+      transform: scaleX(1);
+    }
   }
 
   h3 {
     color: #172b4d;
     font-size: 18px;
     margin-bottom: 12px;
+    font-weight: 600;
   }
 
   p {
     color: #5e6c84;
     font-size: 14px;
-    margin: 4px 0;
+    margin: 6px 0;
   }
 
   .board-owner {
     font-weight: 500;
+    color: #42526e;
+  }
+
+  .board-members {
+    color: #97a0af;
+    font-size: 13px;
   }
 
   .btn-delete {
     position: absolute;
     top: 10px;
     right: 10px;
-    padding: 4px 8px;
+    padding: 6px 12px;
     font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  &:hover .btn-delete {
+    opacity: 1;
   }
 
   .board-card-content {

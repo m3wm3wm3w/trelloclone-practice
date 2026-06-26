@@ -4,21 +4,48 @@
   align-items: center;
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: moveBackground 20s linear infinite;
+  }
+}
+
+@keyframes moveBackground {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
 }
 
 .auth-box {
   background: white;
   padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 400px;
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.5s ease-out;
 
   h1 {
     text-align: center;
     color: #172b4d;
     margin-bottom: 30px;
-    font-size: 24px;
+    font-size: 28px;
+    font-weight: 700;
   }
 
   form {
@@ -32,40 +59,66 @@
     flex-direction: column;
 
     input {
-      padding: 12px;
+      padding: 14px;
       border: 2px solid #dfe1e6;
-      border-radius: 4px;
-      font-size: 14px;
-      transition: border 0.2s;
+      border-radius: 6px;
+      font-size: 15px;
+      transition: all 0.2s;
 
       &:focus {
         outline: none;
         border-color: #0079bf;
+        box-shadow: 0 0 0 3px rgba(0, 121, 191, 0.1);
+      }
+
+      &::placeholder {
+        color: #97a0af;
       }
     }
+  }
+
+  .btn-primary {
+    margin-top: 8px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
   }
 
   .error-message {
     background: #ffebe6;
     color: #bf2600;
     padding: 12px;
-    border-radius: 4px;
+    border-radius: 6px;
     text-align: center;
     font-size: 14px;
+    border: 1px solid #ff8f73;
   }
 
   .auth-footer {
-    margin-top: 20px;
+    margin-top: 24px;
     text-align: center;
 
     a {
       color: #0079bf;
       text-decoration: none;
       font-size: 14px;
+      font-weight: 500;
 
       &:hover {
         text-decoration: underline;
       }
     }
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
