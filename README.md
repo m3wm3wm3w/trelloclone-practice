@@ -96,6 +96,15 @@ npm run dev
 - ✅ Real-time обновления через WebSocket
 - ✅ Отображение подключенных пользователей
 
+## Дополнительная документация
+
+- 📋 [Список функций и возможностей](FEATURES.md)
+- 🤝 [Руководство для разработчиков](CONTRIBUTING.md)
+
+## Автор
+
+Создано по мотивам гайда [Trello tribute with Phoenix and React](https://bigardone.dev/blog/2016/01/04/trello-tribute-with-phoenix-and-react-pt-1/), адаптировано для стека Node.js + Express + MongoDB + React + Redux.
+
 ## Лицензия
 
 MIT
