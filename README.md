@@ -70,14 +70,6 @@ npm run dev
 - **Email:** test@example.com
 - **Password:** test123
 
-Полная информация в [TEST_CREDENTIALS.md](TEST_CREDENTIALS.md)
-
-## Документация
-
-- 📖 [Архитектура проекта](ARCHITECTURE.md)
-- 📡 [API Документация](API_DOCUMENTATION.md)
-- 🚀 [Руководство по деплою](DEPLOYMENT.md)
-
 ## Деплой
 
 🔗 **Приложение:** https://trelloclone-practice-gj13.vercel.app
@@ -85,7 +77,6 @@ npm run dev
 🔗 **Backend API:** https://trelloclone-practice.onrender.com
 
 ## Code Quality
-
 [![Maintainability](https://qlty.sh/gh/m3wm3wm3w/projects/trelloclone-practice/maintainability.svg)](https://qlty.sh/gh/m3wm3wm3w/projects/trelloclone-practice)
 
 ## Основные функции
@@ -97,11 +88,6 @@ npm run dev
 - ✅ Создание и редактирование карточек
 - ✅ Real-time обновления через WebSocket
 - ✅ Отображение подключенных пользователей
-
-## Дополнительная документация
-
-- 📋 [Список функций и возможностей](FEATURES.md)
-- 🤝 [Руководство для разработчиков](CONTRIBUTING.md)
 
 ## Автор
 
