@@ -1,0 +1,261 @@
+.board-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.board-header {
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+
+  .board-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    h1 {
+      color: white;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .btn-back {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+    }
+  }
+}
+
+.connected-users {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+
+  .users-label {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .users-list {
+    display: flex;
+    gap: 8px;
+  }
+
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    border: 2px solid transparent;
+
+    &.online {
+      border-color: #61bd4f;
+      background: rgba(97, 189, 79, 0.3);
+    }
+  }
+
+  .online-count {
+    font-size: 14px;
+    opacity: 0.9;
+  }
+}
+
+.board-content {
+  padding: 24px;
+  overflow-x: auto;
+}
+
+.lists-container {
+  display: flex;
+  gap: 16px;
+  min-height: calc(100vh - 120px);
+}
+
+.list {
+  background: #ebecf0;
+  border-radius: 8px;
+  min-width: 280px;
+  max-width: 280px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 160px);
+
+  .list-header {
+    margin-bottom: 12px;
+
+    h3 {
+      color: #172b4d;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 8px;
+    }
+  }
+
+  .cards-container {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .btn-add-card {
+    background: transparent;
+    color: #5e6c84;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+    }
+  }
+
+  .card-add-form {
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 2px solid #0079bf;
+      border-radius: 4px;
+      resize: vertical;
+      min-height: 60px;
+      font-size: 14px;
+      font-family: inherit;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+  }
+}
+
+.list-create {
+  background: rgba(255, 255, 255, 0.2);
+  min-width: 280px;
+  max-width: 280px;
+  height: fit-content;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  span {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.list-create-form {
+  background: #ebecf0;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    input {
+      padding: 8px;
+      border: 2px solid #0079bf;
+      border-radius: 4px;
+      font-size: 14px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 8px;
+    }
+  }
+}
+
+.card {
+  background: white;
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  h4 {
+    color: #172b4d;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .card-description {
+    color: #5e6c84;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+}
+
+.card-editing {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  input, textarea {
+    padding: 8px;
+    border: 2px solid #0079bf;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 60px;
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 8px;
+  }
+}

@@ -1,0 +1,143 @@
+.boards-page {
+  min-height: 100vh;
+  background: #f5f6f8;
+}
+
+.boards-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    span {
+      font-size: 16px;
+    }
+  }
+}
+
+.boards-content {
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.boards-section {
+  margin-bottom: 40px;
+
+  h2 {
+    color: #172b4d;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+.boards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.board-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  h3 {
+    color: #172b4d;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: #5e6c84;
+    font-size: 14px;
+    margin: 4px 0;
+  }
+
+  .board-owner {
+    font-weight: 500;
+  }
+
+  .btn-delete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  .board-card-content {
+    padding-bottom: 30px;
+  }
+}
+
+.board-create {
+  background: #f4f5f7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  color: #5e6c84;
+  font-weight: 500;
+  border: 2px dashed #dfe1e6;
+
+  .plus-icon {
+    font-size: 32px;
+  }
+
+  &:hover {
+    background: #e4e6ea;
+    border-color: #c1c7d0;
+  }
+}
+
+.board-create-form {
+  background: white;
+  padding: 16px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    input {
+      padding: 8px;
+      border: 2px solid #dfe1e6;
+      border-radius: 4px;
+      font-size: 14px;
+
+      &:focus {
+        outline: none;
+        border-color: #0079bf;
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 8px;
+    }
+  }
+}
