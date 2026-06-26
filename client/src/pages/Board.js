@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { fetchBoard, createList, clearBoard, moveCard } from '../redux/slices/currentBoardSlice';
 import { connectSocket, disconnectSocket } from '../services/socket';
 import List from '../components/List';
