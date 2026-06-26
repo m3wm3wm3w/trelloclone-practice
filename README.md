@@ -80,7 +80,9 @@ npm run dev
 
 ## Деплой
 
-🔗 [Ссылка на работающее приложение](#) _(будет добавлена после деплоя)_
+🔗 **Приложение:** https://trelloclone-practice-gj13.vercel.app
+
+🔗 **Backend API:** https://trelloclone-practice.onrender.com
 
 ## Code Quality
 
