@@ -15,6 +15,14 @@ export const connectSocket = (boardId, dispatch) => {
     socket = io(process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000');
   }
 
+  // Удаляем старые слушатели перед добавлением новых
+  socket.off('user:joined');
+  socket.off('user:left');
+  socket.off('list:created');
+  socket.off('card:created');
+  socket.off('card:updated');
+  socket.off('card:deleted');
+
   socket.emit('join:board', boardId);
 
   socket.on('user:joined', ({ socketId }) => {

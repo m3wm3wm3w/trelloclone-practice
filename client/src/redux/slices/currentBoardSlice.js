@@ -81,10 +81,18 @@ const currentBoardSlice = createSlice({
       state.connectedUsers = state.connectedUsers.filter(id => id !== action.payload);
     },
     socketListCreated: (state, action) => {
-      state.lists.push(action.payload);
+      // Проверяем, нет ли уже такого списка
+      const exists = state.lists.some(list => list._id === action.payload._id);
+      if (!exists) {
+        state.lists.push(action.payload);
+      }
     },
     socketCardCreated: (state, action) => {
-      state.cards.push(action.payload);
+      // Проверяем, нет ли уже такой карточки
+      const exists = state.cards.some(card => card._id === action.payload._id);
+      if (!exists) {
+        state.cards.push(action.payload);
+      }
     },
     socketCardUpdated: (state, action) => {
       const index = state.cards.findIndex(c => c._id === action.payload._id);
@@ -119,10 +127,18 @@ const currentBoardSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(createList.fulfilled, (state, action) => {
-        state.lists.push(action.payload);
+        // Проверяем, нет ли уже такого списка
+        const exists = state.lists.some(list => list._id === action.payload._id);
+        if (!exists) {
+          state.lists.push(action.payload);
+        }
       })
       .addCase(createCard.fulfilled, (state, action) => {
-        state.cards.push(action.payload);
+        // Проверяем, нет ли уже такой карточки
+        const exists = state.cards.some(card => card._id === action.payload._id);
+        if (!exists) {
+          state.cards.push(action.payload);
+        }
       })
       .addCase(updateCard.fulfilled, (state, action) => {
         const index = state.cards.findIndex(c => c._id === action.payload._id);
